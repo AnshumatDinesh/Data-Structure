@@ -1,4 +1,4 @@
-#include"postfix.c"
+#include"stack.c"
 char * infix(char expression[]){
     Stack order;
     initialize(&order);
@@ -166,12 +166,18 @@ char * infix(char expression[]){
         }
 
     }
+    *(postfix+i)='\0';
+    int q=0;
+    while(*(postfix+q)!='\0'){
+        printf("%c",*(postfix+q));
+        q++;
+    }
     return postfix;
 }
 int main(){
     char expressn[100];
     printf("Enter the expression:\n");
     scanf("%s",expressn);
-    int value=postfix(infix(expressn));
-    printf("%d\n",value);
+    char * out=infix(expressn);
+    return 1;
 }
