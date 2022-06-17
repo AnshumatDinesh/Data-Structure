@@ -2,12 +2,12 @@
 #include <stdlib.h>
 struct node
 {
-    char* name;
+    char *name;
     int age;
     char *adress;
     struct node *next;
 };
-void initialize(struct node **head, int num,int adress,int )
+void initialize(struct node **head, int num,char *adress,char *name )
 {
   /*
   This function initalizes the head of the linked list
@@ -20,9 +20,10 @@ void initialize(struct node **head, int num,int adress,int )
   // and setting its value to the given num
   (*(head))->next = *head;
   (*(head))->age = num;
-  (*(head))->adress=adress
+  (*(head))->adress=adress;
+  (*head)->name=name;
 }
-void enqueue(struct node **head, int num)
+void enqueue(struct node **head, int num,char *adress,char *name )
 {
   /*
   This function adds the element at the of the list
@@ -34,12 +35,14 @@ void enqueue(struct node **head, int num)
     // pop all the lement of an initialised list
     // put an uninitialized list into the function
     // so we call the initialise function on head
-    initialize(head, num);
+    initialize(head, num,adress,name);
     return;
   }
   // Declaring the new node and setting its value equal to given value
   struct node *new_node = (struct node *)malloc(sizeof(struct node));
   (*new_node).age = num;
+  (*new_node).name = name;
+  (*new_node).adress = adress;
   (*new_node).next = *head; // setting its pointer to next as  NULL
   // creating a pointer for traversing the list  and setting its initial value
   // equal to the adress of the first element
@@ -83,7 +86,7 @@ void print(struct node *head)
 {
   struct node *pntr_nxt = head;
   do{
-    printf("%d-->", (*pntr_nxt).age);
+    printf("Age %d\nName %s\nAdress %s-->", (*pntr_nxt).age,pntr_nxt->name,pntr_nxt->adress);
     pntr_nxt = (*pntr_nxt).next;
   }
   while (pntr_nxt != head);
@@ -94,7 +97,7 @@ void senior(struct node *head){
     printf("Printing The data of nodes with age over 60\n");
     do{
         if((*pntr_nxt).age>=60){
-            printf("%d-->", (*pntr_nxt).age);
+            printf("Age %d\nName %s\nAdress %s-->", (*pntr_nxt).age,pntr_nxt->name,pntr_nxt->adress);
         }
         pntr_nxt = (*pntr_nxt).next;
     }
@@ -113,7 +116,7 @@ int main(){
         printf("5.Senior citizen\n");
         scanf("%d",&menu);
         int num,ind;
-        char* name,adress;
+        char name[100],adress[100];
         switch(menu){
             case 0:
                 runner=0;
@@ -126,7 +129,7 @@ int main(){
                 scanf("%s",name);
                 printf("Enter  Adress of first node");
                 scanf("%s",adress);
-                initialize(&head,init_val);
+                initialize(&head,init_val,adress,name);
                 printf("Created a linked list with first node of value %d\n",init_val);
                 break;
             case 2:
@@ -136,7 +139,7 @@ int main(){
                 scanf("%s",name);
                 printf("Enter  Adress of first node");
                 scanf("%s",adress);
-                enqueue(&head,num);
+                enqueue(&head,num,adress,name);
                 printf("Added %d to the front of the list \n",num);
                 break;
             case 3:
