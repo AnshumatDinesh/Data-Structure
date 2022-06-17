@@ -225,18 +225,18 @@ int count(struct node *head){
     return count;
 }
 void reverse(struct node **head){
-    if((*head)=NULL){
+    if((*head)==NULL){
         printf("CANT REVERSE EMPTY LIST\n");
         return;
     }
     struct node *ptr_curr=*head;//current pointer as head
     struct node *ptr_prev=NULL;//previous and next pointer as null
     struct node *ptr_nxt=NULL;
-    while(ptr_curr->next!=NULL){
+    while(ptr_curr!=NULL){
         ptr_nxt=ptr_curr->next;//storing the address of the current next in next pointer
         ptr_curr->next=ptr_prev;//assigning the next of current the address of the previous node
         ptr_prev=ptr_curr;//now set the previous node as current
-        ptr_curr=ptr_nxt;//and current as the next node beforwe switching
+        ptr_curr=ptr_nxt;//and current as the next node before we switching
     }
     *head=ptr_prev;//moving the head to the last node
 }
@@ -263,7 +263,7 @@ int main(){
                 break;
             case 1:
                 int init_val;
-                printf("Enter  value of first node");
+                printf("Enter  value of first node ");
                 scanf("%d",&init_val);
                 initialize(&head,init_val);
                 printf("Created a linked list with first node of value %d\n",init_val);

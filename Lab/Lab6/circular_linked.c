@@ -7,7 +7,7 @@ struct node
     char *adress;
     struct node *next;
 };
-void initialize(struct node **head, int num,char *adress,char *name )
+void initialize(struct node **head, int num,char *name,char *adress )
 {
   /*
   This function initalizes the head of the linked list
@@ -23,7 +23,7 @@ void initialize(struct node **head, int num,char *adress,char *name )
   (*(head))->adress=adress;
   (*head)->name=name;
 }
-void enqueue(struct node **head, int num,char *adress,char *name )
+void enqueue(struct node **head, int num,char *name,char *adress )
 {
   /*
   This function adds the element at the of the list
@@ -35,7 +35,7 @@ void enqueue(struct node **head, int num,char *adress,char *name )
     // pop all the lement of an initialised list
     // put an uninitialized list into the function
     // so we call the initialise function on head
-    initialize(head, num,adress,name);
+    initialize(head, num,name,adress);
     return;
   }
   // Declaring the new node and setting its value equal to given value
@@ -97,7 +97,7 @@ void senior(struct node *head){
     printf("Printing The data of nodes with age over 60\n");
     do{
         if((*pntr_nxt).age>=60){
-            printf("Age %d\nName %s\nAdress %s-->", (*pntr_nxt).age,pntr_nxt->name,pntr_nxt->adress);
+            printf("Age %d\nName %s\nAdress %s-->\n", (*pntr_nxt).age,pntr_nxt->name,pntr_nxt->adress);
         }
         pntr_nxt = (*pntr_nxt).next;
     }
@@ -123,24 +123,22 @@ int main(){
                 break;
             case 1:
                 int init_val;
-                printf("Enter  Age of first node");
+                printf("Enter  Age of first node ");
                 scanf("%d",&init_val);
-                printf("Enter  Name of first node");
+                printf("Enter  Name of first node ");
                 scanf("%s",name);
-                printf("Enter  Adress of first node");
+                printf("Enter  Adress of first node ");
                 scanf("%s",adress);
                 initialize(&head,init_val,adress,name);
-                printf("Created a linked list with first node of value %d\n",init_val);
                 break;
             case 2:
-                printf("Enter  Age of first node");
+                printf("Enter  Age of first node ");
                 scanf("%d",&num);
-                printf("Enter  Name of first node");
+                printf("Enter  Name of first node ");
                 scanf("%s",name);
-                printf("Enter  Adress of first node");
+                printf("Enter  Adress of first node ");
                 scanf("%s",adress);
                 enqueue(&head,num,adress,name);
-                printf("Added %d to the front of the list \n",num);
                 break;
             case 3:
                 dequque(&head);
