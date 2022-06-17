@@ -114,32 +114,6 @@ void insert(struct node **head, int index, int num)
   (*new_node).next = (*pntr_nxt).next;
   (*pntr_nxt).next = new_node;
 }
-int get(struct node **head, int index)
-{
-  /*
-  This function gests the value of the element at the index place given
-  */
-  // declaring a variable count to keep track of the nodes
-  int count = 0;
-  // creating a pointer for traversing the list  and setting its initial value
-  // equal to the adress of the first element
-  struct node *pntr_nxt = *head;
-  // if the next pointer of a node is NULL i.e. if we reach the last element
-  // we stop the while loop
-  while (pntr_nxt != NULL)
-  {
-    if (count == index)
-    {
-      // if we reach the index we return the value
-      return (*pntr_nxt).value;
-    }
-    pntr_nxt = (*pntr_nxt).next;
-    count++;
-  }
-  // if the index is outside the scope of the list we reteun
-  // error code 404
-  return 404;
-}
 int pop(struct node **head)
 {
   /*
@@ -167,8 +141,10 @@ int pop(struct node **head)
   }
   // storing the value of the last element in a temp
   int out = (*(*pntr_nxt).next).value;
+  struct node *pntr_temp = pntr_nxt->next;
   // setting the next of the prev element to NULL
   (*pntr_nxt).next = NULL;
+  free(pntr_temp);
   // returning the poped element's value
   return out;
 }
@@ -184,10 +160,12 @@ int pop_f(struct node **head)
     return 404;
   }
   // storing the first element in a temp
+  struct node *pntr_temp = *head;
   int out;
   out = (*(*head)).value;
   // redirecting head to the second value
   (*head) = (*(*head)).next;
+  free(pntr_temp);
   // returning the temp
   return out;
 }
@@ -221,43 +199,10 @@ int del(struct node **head, int index)
     count++;
   }
   int out = ((*pntr_nxt).next)->value;
+  struct node *pntr_temp = pntr_nxt->next;
   (*pntr_nxt).next = (*(*pntr_nxt).next).next;
+  free(pntr_temp);
   return out;
-}
-void search_and_delete(struct node **head, int data){
-  if ((*head) == NULL)
-  {
-    // checking for underflow
-    // and returning and error if true
-    return;
-  }
-  struct node *pntr_nxt=*head;
-  while(pntr_nxt->next!=NULL){
-    if(pntr_nxt->next->value==data){
-      struct node* temp =pntr_nxt->next;
-      pntr_nxt->next=pntr_nxt->next->next;
-      free(temp);
-    }
-    pntr_nxt=pntr_nxt->next;
-  }
-}
-void clear(struct node **head)
-{
-  /*
-  This function clears a list
-  */
-  while (pop(head) != 404)
-  {
-  }
-}
-void random(struct node **head,int size){
-  /*
-  This function fills a list with random numbers
-  */
-  for(int i=0;i<size;i++){
-    int rndm_num=rand()%100;
-    append(head,rndm_num);
-  }
 }
 void print(struct node *head)
 {
@@ -269,76 +214,104 @@ void print(struct node *head)
   }
   printf("NULL\n");
 }
-void concatenate(struct node **head1,struct node **head2){
-  /*
-  This funtion concatenates 2 linked lists
-  */
-  // creating a pointer for traversing the list  and setting its initial value
-  // equal to the adress of the first element
-  struct node *pntr_nxt = *head1;
-  // if the next pointer of a node is NULL i.e. if we reach the last element
-  // we stop the while loop
-  while ((*pntr_nxt).next != NULL)
-  {
-    pntr_nxt = (*pntr_nxt).next;
-  }
-  (*pntr_nxt).next = (*head2);
-}    
-int main()
-{
-  struct node *head;
-  initialize(&head, 10);
-  print(head);
-  push_f(&head, 9);
-  print(head);
-  append(&head, 11);
-  print(head);
-  append(&head, 13);
-  print(head);
-  printf("%d\n", get(&head, 0));
-  printf("%d\n", get(&head, 1));
-  printf("%d\n", get(&head, 2));
-  printf("%d\n", get(&head, 3));
-  printf("%d\n", get(&head, 4));
-  insert(&head, 2, 12);
-  print(head);
-  printf("%d\n", pop(&head));
-  print(head);
-  printf("%d\n", pop(&head));
-  printf("%d\n", pop(&head));
-  printf("%d\n", pop(&head));
-  printf("%d\n", pop(&head));
-  printf("%d\n", pop(&head));
-  print(head);
-  append(&head, 0);
-  append(&head, 1);
-  append(&head, 2);
-  append(&head, 3);
-  append(&head, 4);
-  append(&head, 5);
-  append(&head, 6);
-  append(&head, 7);
-  append(&head, 8);
-  print(head);
-  printf("%d\n", del (&head, 4));
-  print(head);
-  clear(&head);
-  print(head);
-  random(&head,10);
-  print(head);
-  struct node *head1,*head2;
-  initialize(&head1,0);
-  initialize(&head2,1);
-  random(&head1,5);
-  random(&head2,5);
-  print(head1);
-  print(head2);
-  concatenate(&head1,&head2);
-  print(head1);
-  search_and_delete(&head1,27);
-  print(head1);
-
-
-  
-
+int count(struct node *head){
+    struct node *pntr_nxt = head;
+    int count=0;
+    while (pntr_nxt != NULL)
+    {
+        count++;
+        pntr_nxt = (*pntr_nxt).next;
+    }
+    return count;
+}
+void reverse(struct node **head){
+    if((*head)=NULL){
+        printf("CANT REVERSE EMPTY LIST\n");
+        return;
+    }
+    struct node *ptr_curr=*head;//current pointer as head
+    struct node *ptr_prev=NULL;//previous and next pointer as null
+    struct node *ptr_nxt=NULL;
+    while(ptr_curr->next!=NULL){
+        ptr_nxt=ptr_curr->next;//storing the address of the current next in next pointer
+        ptr_curr->next=ptr_prev;//assigning the next of current the address of the previous node
+        ptr_prev=ptr_curr;//now set the previous node as current
+        ptr_curr=ptr_nxt;//and current as the next node beforwe switching
+    }
+    *head=ptr_prev;//moving the head to the last node
+}
+int main(){
+    int runner=1,menu;
+    struct node *head;
+    while(runner){
+        printf("0.Exit\n");
+        printf("1.Create a link list\n");
+        printf("2.Insert a node at begining\n");
+        printf("3.Insert a node at a given index\n");
+        printf("4.Insert a node at end\n");
+        printf("5.Delete a node at begining\n");
+        printf("6.Delete a node at a given index\n");
+        printf("7.Delete a node at a end\n");
+        printf("8.Display the list\n");
+        printf("9.Count of node\n");
+        printf("10.Reverse a list\n");
+        scanf("%d",&menu);
+        int num,ind;
+        switch(menu){
+            case 0:
+                runner=0;
+                break;
+            case 1:
+                int init_val;
+                printf("Enter  value of first node");
+                scanf("%d",&init_val);
+                initialize(&head,init_val);
+                printf("Created a linked list with first node of value %d\n",init_val);
+                break;
+            case 2:
+                printf("Enter  value: ");
+                scanf("%d",&num);
+                push_f(&head,num);
+                printf("Added %d to the front of the list \n",num);
+                break;
+            case 3:
+                printf("Enter  value: ");
+                scanf("%d",&num);
+                printf("Enter the  index: ");
+                scanf("%d",&ind);
+                insert(&head,ind,num);
+                printf("Added %d at %dth index of the list \n",num,ind);
+                break;
+            case 4:
+                printf("Enter  value: ");
+                scanf("%d",&num);
+                append(&head,num);
+                printf("Added %d to the back of the list \n",num);
+                break;
+            case 5:
+                pop_f(&head);
+                printf("Deleted the first node \n");
+                break;
+            case 6:
+                printf("Enter the  index: ");
+                scanf("%d",&ind);
+                del(&head,ind);
+                printf("Deleted the %dth node \n",ind);
+                break;
+            case 7:
+                pop(&head);
+                printf("Deleted the last node \n");
+                break;
+            case 8:
+                print(head);
+                break;
+            case 9:
+                printf("The number of nodes is %d\n",count(head));
+                break;
+            case 10:
+                reverse(&head);
+                printf("Reversed the List \n");
+                break;
+        }
+    }
 }
