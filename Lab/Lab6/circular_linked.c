@@ -149,6 +149,9 @@ int main(){
             case 5:
                 senior(head);
                 break;
+            default:
+                printf("INVALID INPUT\n");
+                break;
         }
     }
 }
