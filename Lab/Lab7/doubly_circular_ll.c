@@ -38,6 +38,24 @@ void append(circular_ll **head,int val){
     new_node->next->prev=new_node;
 
 }
+void pushf(circular_ll **head,int val){
+    circular_ll *new_node;
+    new_node=(circular_ll*)malloc(sizeof(circular_ll));
+    new_node->value=val;
+    if(head==NULL){
+        *(head)=new_node;
+        new_node->next=(*head);
+        new_node->prev=(*head);
+        return;
+    }
+    new_node->next=*head;
+    circular_ll *temp;
+    temp=(*head)->prev;
+    (*head)->prev=new_node;
+    new_node->prev=temp;
+    temp->next=new_node;
+    (*head)=new_node;
+}
 void print(circular_ll *head){
     if(head==NULL){
         return;
@@ -76,6 +94,11 @@ int main(){
                 printf("Enter the value of first node");
                 scanf("%d",&num);
                 initialize(&c_ll,num);
+                break;
+            case 2:
+                printf("Enter the Value");
+                scanf("%d",&num);
+                pushf(&c_ll,num);
                 break;
             case 4:
                 printf("Enter the Value");
