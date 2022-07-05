@@ -222,4 +222,48 @@ void deletion(struct tree* root,int query){
         free(cur);  
     }  
 }  
-  
+int min_element(struct tree*root){
+    if(root->left==NULL){
+        return root->data;
+    }
+    min_element(root->left);
+}
+int onlyright(struct tree* root){
+    inorder_store(root);
+    struct queue * pntr;
+    pntr=inorder_storage;
+    int count=0;
+    while(pntr!=NULL){
+        if(pntr->data->left==NULL && pntr->data->right!=NULL){
+            count++;
+        }
+        pntr=pntr->next;
+    }
+    return count;
+}
+int leaf(struct tree* root){
+    inorder_store(root);
+    struct queue * pntr;
+    pntr=inorder_storage;
+    int count=0;
+    while(pntr!=NULL){
+        if(pntr->data->left==NULL && pntr->data->right==NULL){
+            count++;
+        }
+        pntr=pntr->next;
+    }
+    return count;
+}
+int notleaf(struct tree* root){
+    inorder_store(root);
+    struct queue * pntr;
+    pntr=inorder_storage;
+    int count=0;
+    while(pntr!=NULL){
+        if(pntr->data->left!=NULL || pntr->data->right!=NULL){
+            count++;
+        }
+        pntr=pntr->next;
+    }
+    return count;
+}

@@ -13,6 +13,9 @@ int main(){
         printf("7.Search\n");
         printf("8.Inorder Succesor\n");
         printf("9.Height\n");
+        printf("10.Minimun Element\n");
+        printf("11.only Right Child Element\n");
+        printf("12.only leaf and non-leaf Element\n");
         scanf("%d",&menu);
         int val;
         switch (menu)
@@ -63,6 +66,16 @@ int main(){
             break;
         case 9:
             printf("The depth of tree is %d\n",depth(root));
+            break;
+        case 10:
+            printf("The minimum element of tree is %d\n",min_element(root));
+            break;
+        case 11:
+            printf("The no of  element of tree with only right child is %d\n",onlyright(root));
+            break;
+        case 12:
+            printf("The no of  leaf element of tree is %d\n",leaf(root));
+            printf("The no of  non-leaf element of tree is %d\n",notleaf(root));
             break;
         default:
             break;

@@ -75,3 +75,6 @@ int peek(Stack *pntr_to_stck){
     int temp_poped_element=*((*pntr_to_stck).pntr+(*pntr_to_stck).height-1);
     return temp_poped_element;
 }
+void delete_stack(Stack *pntr_to_stck){
+    free(pntr_to_stck->pntr);
+}
