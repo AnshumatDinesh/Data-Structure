@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 struct queue{
     char *name_of_task;
     struct queue* next;
@@ -57,7 +58,7 @@ void print(struct queue *head)
 }
 int main(){
     int runner=1,menu;
-    struct queue * q1,q2,q3,q4;
+    struct queue * q1=NULL,*q2=NULL,*q3=NULL,*q4=NULL;
     while(runner){
         printf("1.Create a task\n");
         printf("2.Remove a task\n");
@@ -114,16 +115,16 @@ int main(){
                 scanf("%d",&pri);
                 switch(pri){
                     case 1:
-                        print(&q1);
+                        print(q1);
                         break;
                     case 2:
-                        print(&q2);
+                        print(q2);
                         break;
                     case 3:
-                        print(&q3);
+                        print(q3);
                         break;
                     case 4:
-                        print(&q4);
+                        print(q4);
                         break;
                     default:
                         break;
